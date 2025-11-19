@@ -2,14 +2,13 @@ import os
 
 from google.adk.agents import Agent
 from google.adk.models.lite_llm import LiteLlm
-
 from .sub_agents import local_agent, cerebras_agent
 
 root_agent = Agent(
     model=LiteLlm(
-        model=f"openai/{os.environ.get('DEVDUCK_CHAT_MODEL')}",
-        api_base=os.environ.get("DEVDUCK_BASE_URL"),
-        api_key="tada",
+        model=f"cerebras/{os.environ.get('CEREBRAS_CHAT_MODEL')}",
+        api_base=os.environ.get("CEREBRAS_BASE_URL"),
+        api_key=os.environ.get("CEREBRAS_API_KEY"),
         temperature=0.0,
     ),
     name=os.environ.get("DEVDUCK_AGENT_NAME"),

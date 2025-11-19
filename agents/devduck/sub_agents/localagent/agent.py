@@ -5,9 +5,9 @@ from google.adk.models.lite_llm import LiteLlm
 
 local_agent = Agent(
     model=LiteLlm(
-        model=f"openai/{os.environ.get('LOCAL_AGENT_CHAT_MODEL')}",
-        api_base=os.environ.get("LOCAL_AGENT_BASE_URL"),
-        api_key="tada",
+        model=f"cerebras/{os.environ.get('CEREBRAS_CHAT_MODEL')}",
+        api_base=os.environ.get("CEREBRAS_BASE_URL"),
+        api_key=os.environ.get("CEREBRAS_API_KEY"),
         temperature=0.0,
     ),
     name=os.environ.get("LOCAL_AGENT_NAME"),

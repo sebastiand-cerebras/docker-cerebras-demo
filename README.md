@@ -1,8 +1,8 @@
 # DevDuck agents
 
 A multi-agent system for Node.js programming assistance built with Google Agent Development Kit (ADK). This
-project features a coordinating agent (DevDuck) that manages two specialized sub-agents (Local Agent and
-Cerebras) for different programming tasks.
+project features a coordinating agent (DevDuck) that manages two specialized sub-agents (
+Cerebras Agents) for different programming tasks.
 
 ## Architecture
 
@@ -12,7 +12,7 @@ The system consists of three main agents orchestrated by Docker Compose, which p
 ### 🐙 Docker Compose Orchestration
 
 - **Central Role**: Docker Compose serves as the foundation for the entire multi-agent system
-- **Service Orchestration**: Manages the lifecycle of all three agents (DevDuck, Local Agent, and Cerebras)
+- **Service Orchestration**: Manages the lifecycle of all agents (DevDuck and two Cerebras sub-agents)
 - **Configuration Management**: Defines agent prompts, model configurations, and service dependencies
   directly in the compose file
 - **Network Coordination**: Establishes secure inter-agent communication channels
@@ -23,21 +23,16 @@ The system consists of three main agents orchestrated by Docker Compose, which p
 ### 🦆 DevDuck (Main Agent)
 
 - **Role**: Main development assistant and project coordinator
-- **Model**: Qwen3 (unsloth/qwen3-gguf:4B-UD-Q4_K_XL)
 - **Capabilities**: Routes requests to appropriate sub-agents based on user needs
 
-### 👨‍💻 Local Agent Agent
+### 🧠 Cerebras Agents
 
-- **Role**: General development tasks and project coordination
-- **Model**: Qwen2.5 (ai/qwen2.5:latest)
-- **Specialization**: Node.js programming expert for understanding code, explaining concepts, and generating code snippets
-
-### 🧠 Cerebras Agent
-
-- **Role**: Advanced computational tasks and complex problem-solving
-- **Model**: Llama-4 Scout (llama-4-scout-17b-16e-instruct)
+- **Role**: The system features two specialized Cerebras sub-agents for different programming tasks.
+- **Model**: gpt-oss-120b
 - **Provider**: Cerebras API
-- **Specialization**: Node.js programming expert for complex problem-solving scenarios
+- **Specializations**:
+  - General development tasks, code explanation, and conceptual understanding.
+  - Advanced computational tasks, code generation, and complex problem-solving.
 
 ## Features
 
@@ -52,11 +47,6 @@ The system consists of three main agents orchestrated by Docker Compose, which p
 ### Prerequisites
 
 - **[Docker Desktop] 4.43.0+ or [Docker Engine]** installed.
-- **A laptop or workstation with a GPU** (e.g., a MacBook) for running open models locally. If you
-  don't have a GPU, you can alternatively use **[Docker Offload]**.
-- If you're using [Docker Engine] on Linux or [Docker Desktop] on Windows, ensure that the
-  [Docker Model Runner requirements] are met (specifically that GPU
-  support is enabled) and the necessary drivers are installed.
 - If you're using Docker Engine on Linux, ensure you have [Docker Compose] 2.38.1 or later installed.
 
 ### Configuration
@@ -67,7 +57,7 @@ The system consists of three main agents orchestrated by Docker Compose, which p
 ```env
 CEREBRAS_API_KEY=<your_cerebras_api_key>
 CEREBRAS_BASE_URL=https://api.cerebras.ai/v1
-CEREBRAS_CHAT_MODEL=llama-4-scout-17b-16e-instruct
+CEREBRAS_CHAT_MODEL=gpt-oss-120b
 ```
 
 > look at the `.env.sample` file
@@ -89,37 +79,33 @@ The agents can be accessed through the web interface or API endpoints.
 
 > Activate Token Streaming
 
-**You can try this**:
+**Quick Example**:
 
 ```text
 Hello I'm Phil
 
-Local Agent generate a Node.js hello world program
+Cerebras, generate a Node.js hello world program.
 
-Add a Person class with a greet method
+Now, add a Person class with a greet method.
 
-Cerebras can you analyse and comment this code
+Can you analyze and comment this code?
 
-Can you generate the tests
+Finally, generate the tests.
 ```
-
-> ✋ For a public demo, stay simple, the above examples are working.
 
 **🎥 How to use the demo**: [https://youtu.be/WYB31bzfXnM](https://youtu.be/WYB31bzfXnM)
 
 #### Routing Requests
 
 - **General requests**: Handled by DevDuck, who routes to appropriate sub-agents
-- **Specific agent requests**
-  + "I want to speak with Local Agent" → Routes to Local Agent agent
-  + "I want to speak with Cerebras" → Routes to Cerebras agent
+- **Specific agent requests**: To direct a request to a specific agent, mention its name (e.g., "Cerebras, analyze this code"). DevDuck will route the request accordingly.
 
 ## Tips
 
-If for any reason, you cannot go back from the Cerebras agent to the Local Agent agent, try this:
+If you need to reset the conversation and return to the main coordinator, you can say:
 
 ```text
-go back to devduck
+Go back to DevDuck
 ```
 
 [Docker Compose]: https://github.com/docker/compose

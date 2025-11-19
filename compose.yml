@@ -4,19 +4,19 @@ services:
       context: ./agents
       dockerfile: Dockerfile
 
-    models:
-      qwen2_5:
-        endpoint_var: LOCAL_AGENT_BASE_URL
-        model_var: LOCAL_AGENT_CHAT_MODEL
-      qwen3:
-        endpoint_var: DEVDUCK_BASE_URL
-        model_var: DEVDUCK_CHAT_MODEL
-
     ports:
       - 8000:8000
     environment:
       MCPGATEWAY_ENDPOINT: http://mcp-gateway:8811/sse
       PORT: 8000
+      
+      # --------------------------------------
+      # Cerebras API Configuration (used by all agents)
+      # --------------------------------------
+      CEREBRAS_BASE_URL: ${CEREBRAS_BASE_URL}
+      CEREBRAS_CHAT_MODEL: ${CEREBRAS_CHAT_MODEL}
+      CEREBRAS_API_KEY: ${CEREBRAS_API_KEY}
+      
       # --------------------------------------
       # Parent Agent configuration
       # --------------------------------------
@@ -50,9 +50,6 @@ services:
       # --------------------------------------
       # Cerebras Agent Configuration
       # --------------------------------------
-      CEREBRAS_BASE_URL: ${CEREBRAS_BASE_URL}
-      CEREBRAS_CHAT_MODEL: ${CEREBRAS_CHAT_MODEL}
-      CEREBRAS_API_KEY: ${CEREBRAS_API_KEY}
       CEREBRAS_AGENT_NAME: cerebras_agent
       CEREBRAS_AGENT_DESCRIPTION: Specialized agent for advanced computational tasks and complex problem-solving
       CEREBRAS_AGENT_INSTRUCTION: |
@@ -77,9 +74,3 @@ services:
       - --catalog=/mcp-gateway-catalog.yaml
     volumes:
       - ./mcp-gateway-catalog.yaml:/mcp-gateway-catalog.yaml:ro
-# NOTE: Define models
-models:
-  qwen2_5:
-    model: hf.co/unsloth/qwen3-30b-a3b-instruct-2507-gguf:q5_k_m
-  qwen3:
-    model: hf.co/unsloth/qwen3-30b-a3b-instruct-2507-gguf:q5_k_m

@@ -3,11 +3,6 @@ import os
 from fastapi import FastAPI
 from google.adk.cli.fast_api import get_fast_api_app
 import uvicorn
-import litellm
-
-# Enable LiteLLM debug mode
-# litellm.set_verbose = True
-# litellm._turn_on_debug()
 
 # Get the directory where main.py is located
 AGENT_DIR = os.path.dirname(os.path.abspath(__file__))
